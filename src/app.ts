@@ -8,7 +8,7 @@ config();
 const app = express();
 
 app.use(morgan("dev"));
-
+app.use(express.json());
 app.use("/v1", masterRouter);
 
 export default app;
