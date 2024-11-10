@@ -1,16 +1,18 @@
-import express from "express";
-import { config } from "dotenv";
-
-config();
-
-const app = express();
-
-app.get("/", (req, res) => {
-  res.send("This is Budgex");
-});
+import app from "./app";
+import { PrismaClient } from "@prisma/client";
+export const prisma = new PrismaClient();
 
 const port = process.env.PORT || 3000;
 
-app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
-});
+prisma
+  .$connect()
+  .then(() => {
+    console.log("Connected to the database.");
+
+    app.listen(port, () => {
+      console.log(`Server is running on port ${port}`);
+    });
+  })
+  .catch((err: any) => {
+    console.log("Failed to connect to the database:", err);
+  });
