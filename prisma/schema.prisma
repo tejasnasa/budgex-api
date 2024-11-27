@@ -14,29 +14,30 @@ datasource db {
 }
 
 model User {
-  id          String      @id @default(uuid()) @unique
-  email       String      @unique
-  password    String      @default(uuid())
-  name        String
-  created_at  DateTime    @default(now())
-  updated_at  DateTime    @updatedAt
-  budget      Float       @default(0)
-  expenses    Expense[]   
+  id         String     @id @unique @default(uuid())
+  email      String     @unique
+  password   String     @default(uuid())
+  name       String
+  created_at DateTime   @default(now())
+  updated_at DateTime   @updatedAt
+  budget     Float      @default(0)
+  expenses   Expense[]
+  session    Session[]
 
   @@map("users")
 }
 
-model Expense { 
-  id          String   @id @default(uuid()) @unique
-  userid      String
-  user        User     @relation(fields: [userid], references: [id])
-  name        String
-  amount      Float
-  date        DateTime
-  category    String   
-  notes       String?  
-  created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt
+model Expense {
+  id         String   @id @unique @default(uuid())
+  userid     String
+  user       User     @relation(fields: [userid], references: [id])
+  name       String
+  amount     Float
+  date       DateTime
+  category   String
+  notes      String?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("expenses")
 }
-
-
